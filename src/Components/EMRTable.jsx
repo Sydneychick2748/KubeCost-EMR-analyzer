@@ -32,12 +32,14 @@ const EMRTable = ({ emrData }) => {
       renderCell: (params) => (
         <span style={{ color: jobIdColor[params.value] || 'black' }}>{params.value}</span>
       ),
+      description: 'Job ID is a unique identifier for each job',
     },
     {
     field: 'Window.start',
     headerName: 'Start Time',
     width: 180,
     valueGetter: (params) => params.row.Window?.start || '',
+    description: 'Start Time is the beginning timestamp for the job',
     
   },
   {
@@ -45,15 +47,16 @@ const EMRTable = ({ emrData }) => {
     headerName: 'End Time',
     width: 180,
     valueGetter: (params) => params.row.Window?.end || '',
+    description: 'Start Time is the ending timestamp for the job',
    
   },
-    { field: 'Adjustment', headerName: 'Adjustment', type: 'number', width: 120 },
-    { field: 'IdlePct', headerName: 'Idle Pct', type: 'number', width: 150 },
-    { field: 'Tags.team', headerName: 'Team', width: 120 }, // Assuming 'team' is a property in Tags
-    { field: 'InstanceType', headerName: 'InstanceType', width: 150 },
-    { field: 'MemoryAllocated', headerName: 'Memory Allocated', type: 'number', width: 120 },
-    { field: 'MemoryUsed', headerName: 'Memory Used', type: 'number', width: 120 },
-    { field: 'Runtime', headerName: 'Runtime', type: 'number', width: 100 },
+    { field: 'Adjustment', headerName: 'Adjustment', type: 'number', width: 120, description: 'Adjustment is a numeric value representing some adjustment', },
+    { field: 'IdlePct', headerName: 'Idle Pct', type: 'number', width: 150 ,description: 'Idle Pct is a numeric value representing idle percentage',},
+    { field: 'Tags.team', headerName: 'Team', width: 120, description: 'Team is the team associated with the job', }, // Assuming 'team' is a property in Tags
+    { field: 'InstanceType', headerName: 'InstanceType', width: 150, description: 'InstanceType is the type of instance used for the job', },
+    { field: 'MemoryAllocated', headerName: 'Memory Allocated', type: 'number', width: 120, description: 'Memory Allocated is a numeric value representing allocated memory', },
+    { field: 'MemoryUsed', headerName: 'Memory Used', type: 'number', width: 120,description: 'Memory Used is a numeric value representing used memory', },
+    { field: 'Runtime', headerName: 'Runtime', type: 'number', width: 100 , description: 'Runtime is a numeric value representing the duration of the job',},
     {
       field: 'Timestamps',
       headerName: 'Timestamps',
@@ -71,6 +74,7 @@ const EMRTable = ({ emrData }) => {
             ))}
         </select>
       ),
+      description: 'Timestamps represent the timestamps associated with the job',
     },
     // Add more columns as needed
   ];
@@ -84,14 +88,13 @@ const EMRTable = ({ emrData }) => {
 
   return (
     <div style={{ height: 400, width: '100%' }} className="emr-table-container">
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        autoHeight={false}
-        autoPageSize
-        scrollbarSize={20} // Add this line to specify the size of the scrollbar
-      />
+    <DataGrid
+  rows={rows}
+  columns={columns}
+  pageSize={rows.length} // Set pageSize to the total number of rows
+  autoHeight
+  scrollbarSize={20}
+/>
     </div>
   );
 };
