@@ -13,7 +13,7 @@ const EMRTable = ({ emrData }) => {
   const colors = Object.keys(emrData).reduce((colors, jobID) => {
     return {
       ...colors,
-      [jobID]: 'green',
+      [jobID]: '#28b359',
     };
   }, {});
   setJobIdColor(colors);
@@ -30,8 +30,11 @@ const EMRTable = ({ emrData }) => {
       headerName: 'Job ID',
       width: 150,
       renderCell: (params) => (
-        <span style={{ color: jobIdColor[params.value] || 'black' }}>{params.value}</span>
-      ),
+       
+          <span style={{ color: jobIdColor[params.value] || '#28b359' }}>{params.value}</span>
+        ),
+        
+      
       description: 'Job ID is a unique identifier for each job',
     },
     {
@@ -65,6 +68,11 @@ const EMRTable = ({ emrData }) => {
         <select
           value={selectedTimestamp || (params.value && params.value[0])}
           onChange={handleTimestampChange}
+          style={{
+            color: '#000', // Default text color
+            backgroundColor: jobIdColor[params.row.id] ? '#FFF' : '#63E892', // Green or white background
+            transition: 'background-color 0.3s', // Add a smooth transition
+          }}
         >
           {params.value &&
             params.value.map((timestamp) => (

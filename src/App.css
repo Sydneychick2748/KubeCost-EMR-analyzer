@@ -27,5 +27,5 @@
 
 /* Style the Job ID cells with light green text */
 .MuiDataGrid-cell--JobID {
-  color: lightgreen;
+color : #63E892;
 }
