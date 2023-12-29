@@ -1,77 +1,177 @@
 // EMRTable.jsx
-import { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import PropTypes from "prop-types";
 
 const EMRTable = ({ emrData }) => {
   const [selectedTimestamp, setSelectedTimestamp] = useState(null);
   const [jobIdColor, setJobIdColor] = useState({});
+  const [selectedResource, setSelectedResource] = useState(null);
 
   useEffect(() => {
-    
     // Update color for Job IDs once on mount
-  const colors = Object.keys(emrData).reduce((colors, jobID) => {
-    return {
-      ...colors,
-      [jobID]: '#28b359',
-    };
-  }, {});
-  setJobIdColor(colors);
-}, [emrData]);
+    const colors = Object.keys(emrData).reduce((colors, jobID) => {
+      return {
+        ...colors,
+        [jobID]: "#28b359",
+      };
+    }, {});
+    setJobIdColor(colors);
+  }, [emrData]);
 
   const handleTimestampChange = (e) => {
     setSelectedTimestamp(e.target.value);
   };
 
+  const handleResourceChange = (e, jobId) => {
+    const newSelectedResource = e.target.value;
+    setSelectedResource((prevSelectedResources) => ({
+      ...prevSelectedResources,
+      [jobId]: newSelectedResource,
+    }));
+  };
   // Define columns
   const columns = [
     {
-      field: 'JobID',
-      headerName: 'Job ID',
+      field: "JobID",
+      headerName: "Job ID",
       width: 150,
       renderCell: (params) => (
-       
-          <span style={{ color: jobIdColor[params.value] || '#28b359' }}>{params.value}</span>
-        ),
-        
-      
-      description: 'Job ID is a unique identifier for each job',
+        <span style={{ color: jobIdColor[params.value] || "#28b359" }}>
+          {params.value}
+        </span>
+      ),
+
+      description: "Job ID is a unique identifier for each job",
     },
     {
-    field: 'Window.start',
-    headerName: 'Start Time',
-    width: 180,
-    valueGetter: (params) => params.row.Window?.start || '',
-    description: 'Start Time is the beginning timestamp for the job',
-    
-  },
-  {
-    field: 'Window.end',
-    headerName: 'End Time',
-    width: 180,
-    valueGetter: (params) => params.row.Window?.end || '',
-    description: 'Start Time is the ending timestamp for the job',
-   
-  },
-    { field: 'Adjustment', headerName: 'Adjustment', type: 'number', width: 120, description: 'Adjustment is a numeric value representing some adjustment', },
-    { field: 'IdlePct', headerName: 'Idle Pct', type: 'number', width: 150 ,description: 'Idle Pct is a numeric value representing idle percentage',},
-    { field: 'Tags.team', headerName: 'Team', width: 120, description: 'Team is the team associated with the job', }, // Assuming 'team' is a property in Tags
-    { field: 'InstanceType', headerName: 'InstanceType', width: 150, description: 'InstanceType is the type of instance used for the job', },
-    { field: 'MemoryAllocated', headerName: 'Memory Allocated', type: 'number', width: 120, description: 'Memory Allocated is a numeric value representing allocated memory', },
-    { field: 'MemoryUsed', headerName: 'Memory Used', type: 'number', width: 120,description: 'Memory Used is a numeric value representing used memory', },
-    { field: 'Runtime', headerName: 'Runtime', type: 'number', width: 100 , description: 'Runtime is a numeric value representing the duration of the job',},
+      field: "AccountID",
+      headerName: "Account ID",
+      width: 150,
+      description: "Account ID represents the unique identifier for the account associated with the job",
+    },
     {
-      field: 'Timestamps',
-      headerName: 'Timestamps',
+      field: "InstanceID",
+      headerName: "Instance ID",
+      width: 150,
+      description: "Instance ID represents the unique identifier for the instance used in the job",
+    },
+    {
+      field: "Window.start",
+      headerName: "Start Time",
+      width: 180,
+      valueGetter: (params) => params.row.Window?.start || "",
+      description: "Start Time is the beginning timestamp for the job",
+    },
+    {
+      field: "Window.end",
+      headerName: "End Time",
+      width: 180,
+      valueGetter: (params) => params.row.Window?.end || "",
+      description: "Start Time is the ending timestamp for the job",
+    },
+    {
+      field: "Tags.team",
+      headerName: "Team",
+      width: 120,
+      description: "Team is the team associated with the job",
+    }, 
+    {
+      field: "InstanceType",
+      headerName: "Instance Type",
+      width: 150,
+      description: "Instance Type represents the type of virtual machine or instance used for the job",
+    },// Assuming 'team' is a p
+    {
+      field: "Adjustment",
+      headerName: "Adjustment",
+      type: "number",
+      width: 120,
+      description: "Adjustment is a numeric value representing some adjustment",
+    },
+    { field: "Cost", 
+    headerName: "Cost", type: "number", 
+    width: 120,
+    description: "Cost represents the monetary expense associated with the job. Reflects overall resource consumption, usage, including compute instances, storage, and related services."
+     },
+     
+
+    {
+      field: "IdlePct",
+      headerName: "Idle Pct",
+      type: "number",
+      width: 150,
+      description: "Idle Pct is a numeric value representing idle percentage",
+    },
+    
+
+    {
+      field: "MemoryAllocated",
+      headerName: "Memory Allocated",
+      type: "number",
+      width: 120,
+      description:
+        "Memory Allocated is a numeric value representing allocated memory",
+    },
+    {
+      field: "MemoryUsed",
+      headerName: "Memory Used",
+      type: "number",
+      width: 120,
+      description: "Memory Used is a numeric value representing used memory",
+    },
+    {
+      field: "Runtime",
+      headerName: "Runtime",
+      type: "number",
+      width: 100,
+      description:
+        "Runtime is a numeric value representing the duration of the job",
+    },
+    {
+      field: "PodName",
+      headerName: "Pod Name",
+      width: 150,
+      description: "Pod Name represents the name of the pod associated with the job",
+    },
+    
+    {
+      field: 'Resources',
+      headerName: 'Resources',
+      width: 200,
+      renderCell: (params) => (
+        <select
+          value={selectedResource || (params.value && params.value[0]?.Memory)}
+          onChange={(e) => handleResourceChange(e, params.row.id)}
+          style={{
+            color: "#000", // Default text color
+            backgroundColor: jobIdColor[params.row.id] ? "#FFF" : "#63E892", // Green or white background
+            transition: "background-color 0.3s", // Add a smooth transition
+          }}
+        >
+          {params.value &&
+            params.value.map((resource, index) => (
+              <option key={index} value={resource.Memory}>
+                {`${resource.Memory} MB`}
+              </option>
+            ))}
+        </select>
+      ),
+      description: "Resources represent the memory allocation for the job. It reflects the amount of memory assigned to the job, measured in megabytes (MB).",
+    },
+    
+    {
+      field: "Timestamps",
+      headerName: "Timestamps",
       width: 200,
       renderCell: (params) => (
         <select
           value={selectedTimestamp || (params.value && params.value[0])}
           onChange={handleTimestampChange}
           style={{
-            color: '#000', // Default text color
-            backgroundColor: jobIdColor[params.row.id] ? '#FFF' : '#63E892', // Green or white background
-            transition: 'background-color 0.3s', // Add a smooth transition
+            color: "#000", // Default text color
+            backgroundColor: jobIdColor[params.row.id] ? "#FFF" : "#63E892", // Green or white background
+            transition: "background-color 0.3s", // Add a smooth transition
           }}
         >
           {params.value &&
@@ -82,7 +182,8 @@ const EMRTable = ({ emrData }) => {
             ))}
         </select>
       ),
-      description: 'Timestamps represent the timestamps associated with the job',
+      description:
+        "Timestamps represent the timestamps associated with the job",
     },
     // Add more columns as needed
   ];
@@ -91,18 +192,18 @@ const EMRTable = ({ emrData }) => {
   const rows = Object.keys(emrData).map((jobID) => ({
     id: jobID,
     ...emrData[jobID],
-    'Tags.team': emrData[jobID].Tags?.team, // Flatten 'Tags' structure
+    "Tags.team": emrData[jobID].Tags?.team, // Flatten 'Tags' structure
   }));
 
   return (
-    <div style={{ height: 400, width: '100%' }} className="emr-table-container">
-    <DataGrid
-  rows={rows}
-  columns={columns}
-  pageSize={rows.length} // Set pageSize to the total number of rows
-  autoHeight
-  scrollbarSize={20}
-/>
+    <div style={{ height: 400, width: "100%" }} className="emr-table-container">
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={rows.length} // Set pageSize to the total number of rows
+        autoHeight
+        scrollbarSize={20}
+      />
     </div>
   );
 };
