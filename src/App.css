@@ -29,3 +29,17 @@
 .MuiDataGrid-cell--JobID {
 color : #63E892;
 }
+
+
+.your-h3-class {
+  color:black;
+ font-weight: 500;
+ font-size: 15px;
+  /* Your styles for the h3 element */
+}
+
+.job-id {
+  font-size: 15px;
+  color :rgb(40, 179, 89)
+  
+}

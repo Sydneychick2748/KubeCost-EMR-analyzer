@@ -2,6 +2,7 @@
 
 import PropTypes from "prop-types";
 import { DataGrid } from "@mui/x-data-grid";
+import "../App.css"
 
 const DetailedStepsInfo = ({ jobId, emrData }) => {
   const steps = emrData[jobId]?.Steps || {};
@@ -19,7 +20,8 @@ const DetailedStepsInfo = ({ jobId, emrData }) => {
 
   return (
     <div style={{ height: 400, width: "100%" }} className="emr-table-container">
-      <h3>Steps Information for Job ID: {jobId}</h3>
+     <h3 className="your-h3-class">Steps Information for Job ID: <span className="job-id">{jobId}</span></h3>
+
       <DataGrid rows={stepRows} columns={columns} pageSize={stepRows.length} autoHeight scrollbarSize={20} />
     </div>
   );

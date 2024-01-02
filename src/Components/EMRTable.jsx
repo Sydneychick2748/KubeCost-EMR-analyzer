@@ -36,7 +36,7 @@ const EMRTable = ({ emrData }) => {
   const handleJobIdClick = (jobId) => {
     setSelectedJobId(jobId); // Update selectedJobId when a row is clicked
   };
-  
+
   const columns = [
     {
       field: "JobID",
@@ -51,7 +51,6 @@ const EMRTable = ({ emrData }) => {
       description: "Job ID is a unique identifier for each job",
     },
 
-    
     {
       field: "AccountID",
       headerName: "Account ID",
@@ -132,6 +131,7 @@ const EMRTable = ({ emrData }) => {
       width: 120,
       description: "Memory Used is a numeric value representing used memory",
     },
+    
     {
       field: "Runtime",
       headerName: "Runtime",
@@ -147,6 +147,7 @@ const EMRTable = ({ emrData }) => {
       description:
         "Pod Name represents the name of the pod associated with the job",
     },
+    
 
     {
       field: "Resources",
@@ -219,13 +220,17 @@ const EMRTable = ({ emrData }) => {
         scrollbarSize={20}
         onRowClick={(params, event) => {
           // Check if the clicked column is "Job ID"
-          if (event.target.closest(".MuiDataGrid-cell")?.getAttribute("aria-colindex") === "1") {
+          if (
+            event.target
+              .closest(".MuiDataGrid-cell")
+              ?.getAttribute("aria-colindex") === "1"
+          ) {
             handleJobIdClick(params.id);
           }
         }}
-      
-      />{/* Pass jobId and emrData props to DetailedStepsInfo */}
-     {selectedJobId && (
+      />
+      {/* Pass jobId and emrData props to DetailedStepsInfo */}
+      {selectedJobId && (
         <DetailedStepsInfo
           jobId={selectedJobId}
           emrData={emrData}
