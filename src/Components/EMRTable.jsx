@@ -2,11 +2,13 @@
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
+import DetailedStepsInfo from "./DetailedStepsInfo";
 
 const EMRTable = ({ emrData }) => {
   const [selectedTimestamp, setSelectedTimestamp] = useState(null);
   const [jobIdColor, setJobIdColor] = useState({});
   const [selectedResource, setSelectedResource] = useState(null);
+  const [selectedJobId, setSelectedJobId] = useState(null); // State to track selected jobId
 
   useEffect(() => {
     // Update color for Job IDs once on mount
@@ -30,7 +32,11 @@ const EMRTable = ({ emrData }) => {
       [jobId]: newSelectedResource,
     }));
   };
-  // Define columns
+
+  const handleJobIdClick = (jobId) => {
+    setSelectedJobId(jobId); // Update selectedJobId when a row is clicked
+  };
+  
   const columns = [
     {
       field: "JobID",
@@ -44,17 +50,21 @@ const EMRTable = ({ emrData }) => {
 
       description: "Job ID is a unique identifier for each job",
     },
+
+    
     {
       field: "AccountID",
       headerName: "Account ID",
       width: 150,
-      description: "Account ID represents the unique identifier for the account associated with the job",
+      description:
+        "Account ID represents the unique identifier for the account associated with the job",
     },
     {
       field: "InstanceID",
       headerName: "Instance ID",
       width: 150,
-      description: "Instance ID represents the unique identifier for the instance used in the job",
+      description:
+        "Instance ID represents the unique identifier for the instance used in the job",
     },
     {
       field: "Window.start",
@@ -75,13 +85,14 @@ const EMRTable = ({ emrData }) => {
       headerName: "Team",
       width: 120,
       description: "Team is the team associated with the job",
-    }, 
+    },
     {
       field: "InstanceType",
       headerName: "Instance Type",
       width: 150,
-      description: "Instance Type represents the type of virtual machine or instance used for the job",
-    },// Assuming 'team' is a p
+      description:
+        "Instance Type represents the type of virtual machine or instance used for the job",
+    }, // Assuming 'team' is a p
     {
       field: "Adjustment",
       headerName: "Adjustment",
@@ -89,12 +100,14 @@ const EMRTable = ({ emrData }) => {
       width: 120,
       description: "Adjustment is a numeric value representing some adjustment",
     },
-    { field: "Cost", 
-    headerName: "Cost", type: "number", 
-    width: 120,
-    description: "Cost represents the monetary expense associated with the job. Reflects overall resource consumption, usage, including compute instances, storage, and related services."
-     },
-     
+    {
+      field: "Cost",
+      headerName: "Cost",
+      type: "number",
+      width: 120,
+      description:
+        "Cost represents the monetary expense associated with the job. Reflects overall resource consumption, usage, including compute instances, storage, and related services.",
+    },
 
     {
       field: "IdlePct",
@@ -103,7 +116,6 @@ const EMRTable = ({ emrData }) => {
       width: 150,
       description: "Idle Pct is a numeric value representing idle percentage",
     },
-    
 
     {
       field: "MemoryAllocated",
@@ -132,12 +144,13 @@ const EMRTable = ({ emrData }) => {
       field: "PodName",
       headerName: "Pod Name",
       width: 150,
-      description: "Pod Name represents the name of the pod associated with the job",
+      description:
+        "Pod Name represents the name of the pod associated with the job",
     },
-    
+
     {
-      field: 'Resources',
-      headerName: 'Resources',
+      field: "Resources",
+      headerName: "Resources",
       width: 200,
       renderCell: (params) => (
         <select
@@ -157,9 +170,10 @@ const EMRTable = ({ emrData }) => {
             ))}
         </select>
       ),
-      description: "Resources represent the memory allocation for the job. It reflects the amount of memory assigned to the job, measured in megabytes (MB).",
+      description:
+        "Resources represent the memory allocation for the job. It reflects the amount of memory assigned to the job, measured in megabytes (MB).",
     },
-    
+
     {
       field: "Timestamps",
       headerName: "Timestamps",
@@ -203,7 +217,16 @@ const EMRTable = ({ emrData }) => {
         pageSize={rows.length} // Set pageSize to the total number of rows
         autoHeight
         scrollbarSize={20}
-      />
+        onRowClick={(params) => handleJobIdClick(params.id)} // Handle row click
+      
+      />{/* Pass jobId and emrData props to DetailedStepsInfo */}
+     {selectedJobId && (
+        <DetailedStepsInfo
+          jobId={selectedJobId}
+          emrData={emrData}
+          onJobIdClick={handleJobIdClick} // Pass the function as a prop
+        />
+      )}
     </div>
   );
 };
