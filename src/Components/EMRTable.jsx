@@ -217,7 +217,12 @@ const EMRTable = ({ emrData }) => {
         pageSize={rows.length} // Set pageSize to the total number of rows
         autoHeight
         scrollbarSize={20}
-        onRowClick={(params) => handleJobIdClick(params.id)} // Handle row click
+        onRowClick={(params, event) => {
+          // Check if the clicked column is "Job ID"
+          if (event.target.closest(".MuiDataGrid-cell")?.getAttribute("aria-colindex") === "1") {
+            handleJobIdClick(params.id);
+          }
+        }}
       
       />{/* Pass jobId and emrData props to DetailedStepsInfo */}
      {selectedJobId && (
