@@ -11,12 +11,14 @@ const DetailedStepsInfo = ({ jobId, emrData }) => {
     ...steps[stepId],
   }));
 
-  const columns = [
-    { field: "ID", headerName: "Step ID", width: 150 },
-    { field: "Name", headerName: "Step Name", width: 200 },
-    { field: "UserName", headerName: "User Name", width: 150 },
-    { field: "UserARN", headerName: "User ARN", width: 200 },
-  ];
+ 
+    const columns = [
+        { field: "ID", headerName: "Step ID", width: 150, description: "Unique identifier for each step" },
+        { field: "Name", headerName: "Step Name", width: 200, description: "Name or label associated with the step" },
+        { field: "UserName", headerName: "User Name", width: 150, description: "Name of the user associated with the step" },
+        { field: "UserARN", headerName: "User ARN", width: 200, description: "Amazon Resource Name (ARN) associated with the user" },
+      ];
+      
 
   return (
     <div style={{ height: 400, width: "100%" }} className="emr-table-container">

@@ -104,6 +104,7 @@ const EMRTable = ({ emrData }) => {
       headerName: "Cost",
       type: "number",
       width: 120,
+      valueGetter: (params) => `$${params.row.Cost.toFixed(2)}`, // Add a dollar sign and format the cost
       description:
         "Cost represents the monetary expense associated with the job. Reflects overall resource consumption, usage, including compute instances, storage, and related services.",
     },
