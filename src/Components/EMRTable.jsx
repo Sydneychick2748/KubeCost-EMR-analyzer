@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 import DetailedStepsInfo from "./DetailedStepsInfo";
 
 const EMRTable = ({ emrData }) => {
-  const [selectedTimestamp, setSelectedTimestamp] = useState(null);
   const [jobIdColor, setJobIdColor] = useState({});
-  const [selectedResource, setSelectedResource] = useState(null);
+
   const [selectedJobId, setSelectedJobId] = useState(null); // State to track selected jobId
 
   useEffect(() => {
@@ -21,21 +20,14 @@ const EMRTable = ({ emrData }) => {
     setJobIdColor(colors);
   }, [emrData]);
 
-  const handleTimestampChange = (e) => {
-    setSelectedTimestamp(e.target.value);
-  };
-
-  const handleResourceChange = (e, jobId) => {
-    const newSelectedResource = e.target.value;
-    setSelectedResource((prevSelectedResources) => ({
-      ...prevSelectedResources,
-      [jobId]: newSelectedResource,
-    }));
-  };
-
   const handleJobIdClick = (jobId) => {
     setSelectedJobId(jobId); // Update selectedJobId when a row is clicked
   };
+  
+  const handleBackClick = () => {
+    setSelectedJobId(null); // Set selectedJobId to null to indicate no job ID is selected
+  };
+
 
   const columns = [
     {
@@ -65,20 +57,7 @@ const EMRTable = ({ emrData }) => {
       description:
         "Instance ID represents the unique identifier for the instance used in the job",
     },
-    {
-      field: "Window.start",
-      headerName: "Start Time",
-      width: 180,
-      valueGetter: (params) => params.row.Window?.start || "",
-      description: "Start Time is the beginning timestamp for the job",
-    },
-    {
-      field: "Window.end",
-      headerName: "End Time",
-      width: 180,
-      valueGetter: (params) => params.row.Window?.end || "",
-      description: "Start Time is the ending timestamp for the job",
-    },
+
     {
       field: "Tags.team",
       headerName: "Team",
@@ -132,7 +111,7 @@ const EMRTable = ({ emrData }) => {
       width: 120,
       description: "Memory Used is a numeric value representing used memory",
     },
-    
+
     {
       field: "Runtime",
       headerName: "Runtime",
@@ -141,67 +120,6 @@ const EMRTable = ({ emrData }) => {
       description:
         "Runtime is a numeric value representing the duration of the job",
     },
-    {
-      field: "PodName",
-      headerName: "Pod Name",
-      width: 150,
-      description:
-        "Pod Name represents the name of the pod associated with the job",
-    },
-    
-
-    {
-      field: "Resources",
-      headerName: "Resources",
-      width: 200,
-      renderCell: (params) => (
-        <select
-          value={selectedResource || (params.value && params.value[0]?.Memory)}
-          onChange={(e) => handleResourceChange(e, params.row.id)}
-          style={{
-            color: "#000", // Default text color
-            backgroundColor: jobIdColor[params.row.id] ? "#FFF" : "#63E892", // Green or white background
-            transition: "background-color 0.3s", // Add a smooth transition
-          }}
-        >
-          {params.value &&
-            params.value.map((resource, index) => (
-              <option key={index} value={resource.Memory}>
-                {`${resource.Memory} MB`}
-              </option>
-            ))}
-        </select>
-      ),
-      description:
-        "Resources represent the memory allocation for the job. It reflects the amount of memory assigned to the job, measured in megabytes (MB).",
-    },
-
-    {
-      field: "Timestamps",
-      headerName: "Timestamps",
-      width: 200,
-      renderCell: (params) => (
-        <select
-          value={selectedTimestamp || (params.value && params.value[0])}
-          onChange={handleTimestampChange}
-          style={{
-            color: "#000", // Default text color
-            backgroundColor: jobIdColor[params.row.id] ? "#FFF" : "#63E892", // Green or white background
-            transition: "background-color 0.3s", // Add a smooth transition
-          }}
-        >
-          {params.value &&
-            params.value.map((timestamp) => (
-              <option key={timestamp} value={timestamp}>
-                {new Date(timestamp * 1000).toLocaleString()}
-              </option>
-            ))}
-        </select>
-      ),
-      description:
-        "Timestamps represent the timestamps associated with the job",
-    },
-    // Add more columns as needed
   ];
 
   // Flatten the nested structure and generate rows
@@ -213,29 +131,30 @@ const EMRTable = ({ emrData }) => {
 
   return (
     <div style={{ height: 400, width: "100%" }} className="emr-table-container">
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={rows.length} // Set pageSize to the total number of rows
-        autoHeight
-        scrollbarSize={20}
-        onRowClick={(params, event) => {
-          // Check if the clicked column is "Job ID"
-          if (
-            event.target
-              .closest(".MuiDataGrid-cell")
-              ?.getAttribute("aria-colindex") === "1"
-          ) {
-            handleJobIdClick(params.id);
-          }
-        }}
-      />
-      {/* Pass jobId and emrData props to DetailedStepsInfo */}
-      {selectedJobId && (
-        <DetailedStepsInfo
-          jobId={selectedJobId}
-          emrData={emrData}
-          onJobIdClick={handleJobIdClick} // Pass the function as a prop
+      {selectedJobId ? (
+        // Render the detailed steps page if a job ID is selected
+        <DetailedStepsInfo 
+        jobId={selectedJobId}
+        emrData={emrData}
+        onBackClick={handleBackClick} // Pass the back click handle click
+         />
+      ) : (
+        // Render the main table if no job ID is selected
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={rows.length}
+          autoHeight
+          scrollbarSize={20}
+          onRowClick={(params, event) => {
+            if (
+              event.target
+                .closest(".MuiDataGrid-cell")
+                ?.getAttribute("aria-colindex") === "1"
+            ) {
+              handleJobIdClick(params.id);
+            }
+          }}
         />
       )}
     </div>
