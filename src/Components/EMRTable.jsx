@@ -96,14 +96,7 @@ const EMRTable = ({ emrData }) => {
       description: "Idle Pct is a numeric value representing idle percentage",
     },
 
-    {
-      field: "MemoryAllocated",
-      headerName: "Memory Allocated",
-      type: "number",
-      width: 120,
-      description:
-        "Memory Allocated is a numeric value representing allocated memory",
-    },
+    
     {
       field: "MemoryUsed",
       headerName: "Memory Used",
