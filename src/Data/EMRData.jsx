@@ -3,7 +3,10 @@
 // emrData.js
 
   // emrData.js
-export const EMR_DATA = {
+export const EMR_DATA =[
+
+
+  {
   "j-2CDBZ8DU5A1O0": {
     "Window": {
       "start": "2023-12-21T00:00:00Z",
@@ -349,4 +352,4 @@ export const EMR_DATA = {
     "MemoryUsed": 3072,
     "Runtime": 150
   }
-};
+}];

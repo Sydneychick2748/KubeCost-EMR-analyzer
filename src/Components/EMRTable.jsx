@@ -1,4 +1,6 @@
-// EMRTable.jsx
+// App.jsx
+
+
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
@@ -96,7 +98,14 @@ const EMRTable = ({ emrData }) => {
       description: "Idle Pct is a numeric value representing idle percentage",
     },
 
-    
+    {
+      field: "MemoryAllocated",
+      headerName: "Memory Allocated",
+      type: "number",
+      width: 120,
+      description:
+        "Memory Allocated is a numeric value representing allocated memory",
+    },
     {
       field: "MemoryUsed",
       headerName: "Memory Used",
@@ -129,7 +138,7 @@ const EMRTable = ({ emrData }) => {
         <DetailedStepsInfo 
         jobId={selectedJobId}
         emrData={emrData}
-        onBackClick={handleBackClick} // Pass the back click handle click
+        onBackClick={handleBackClick} // Pass the back click hand
          />
       ) : (
         // Render the main table if no job ID is selected
@@ -159,3 +168,6 @@ EMRTable.propTypes = {
 };
 
 export default EMRTable;
+
+
+
