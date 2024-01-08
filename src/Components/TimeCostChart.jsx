@@ -18,7 +18,7 @@ const TimeCostChart = ({ emrData }) => {
   console.log('dataArray:', dataArray);
 
   return (
-    <BarChart width={800} height={400} data={dataArray}>
+    <BarChart width={1400} height={400} data={dataArray}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="startDate" tickFormatter={(date) => formatStartDate(date)} />
 
@@ -30,7 +30,7 @@ const TimeCostChart = ({ emrData }) => {
       />
       <Tooltip />
       <Legend />
-      <Bar dataKey="cost" fill="#8884d8" />
+      <Bar dataKey="cost"    fill="#28B359" />
     </BarChart>
   );
 };

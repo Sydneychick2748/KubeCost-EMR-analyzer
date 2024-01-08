@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { DataGrid } from "@mui/x-data-grid";
 import "../App.css";
 
+
 const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
   const steps = emrData[jobId]?.Steps || {};
   const stepRows = Object.keys(steps).map((stepId) => ({

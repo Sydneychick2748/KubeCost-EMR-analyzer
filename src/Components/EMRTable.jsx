@@ -12,15 +12,15 @@ const EMRTable = ({ emrData }) => {
   const [selectedJobId, setSelectedJobId] = useState(null); // State to track selected jobId
 
   useEffect(() => {
-    // Update color for Job IDs once on mount
+    // Update color for Job IDs once on mount or when selectedJobId changes
     const colors = Object.keys(emrData).reduce((colors, jobID) => {
       return {
         ...colors,
-        [jobID]: "#28b359",
+        [jobID]: jobID === selectedJobId ? "#FF5733" : "#28b359", // Highlight selected job ID
       };
     }, {});
     setJobIdColor(colors);
-  }, [emrData]);
+  }, [emrData, selectedJobId]);
 
   const handleJobIdClick = (jobId) => {
     setSelectedJobId(jobId); // Update selectedJobId when a row is clicked
