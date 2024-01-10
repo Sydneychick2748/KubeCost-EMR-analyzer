@@ -1,42 +1,33 @@
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+
 
 const TimeCostChart = ({ emrData }) => {
-  const formatStartDate = (dateString) => {
-    return moment(dateString).format('MM/DD/YYYY');
-  };
+  
 
-  // Extract data for the chart
-  const dataArray = Object.values(emrData).map((item) => ({
-    name: item.JobID,
-    cost: item.Cost,
-    startDate: moment(item.Window.start).format('MM/DD/YYYY'), // Extract the formatted start date
-  }));
-
-  console.log('dataArray:', dataArray);
+  
 
   return (
-    <BarChart width={1400} height={400} data={dataArray}>
+    <AreaChart width={1400} height={400} data={emrData}>
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="startDate" tickFormatter={(date) => formatStartDate(date)} />
+      <XAxis dataKey="start" />
 
       <YAxis
         type="number"
-        domain={[0, Math.ceil(Math.max(...dataArray.map((item) => item.cost)) / 1) * 1]}
-        tickCount={Math.ceil(Math.max(...dataArray.map((item) => item.cost)) / 1) + 1}
+        domain={[0, Math.ceil(Math.max(...emrData.map((item) => item.cost)) / 1) * 1]}
+        tickCount={Math.ceil(Math.max(...emrData.map((item) => item.cost)) / 1) + 1}
         tickFormatter={(value) => `$${value.toFixed(2)}`}
       />
       <Tooltip />
       <Legend />
-      <Bar dataKey="cost"    fill="#28B359" />
-    </BarChart>
+      <Area dataKey="cost" fill="#28B359" stroke="#28B359" />
+    </AreaChart>
   );
 };
 
 TimeCostChart.propTypes = {
-  emrData: PropTypes.object.isRequired,
+  emrData: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TimeCostChart;

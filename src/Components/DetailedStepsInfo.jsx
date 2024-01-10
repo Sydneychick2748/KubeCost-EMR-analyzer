@@ -6,11 +6,15 @@ import "../App.css";
 
 
 const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
-  const steps = emrData[jobId]?.Steps || {};
-  const stepRows = Object.keys(steps).map((stepId) => ({
-    id: stepId,
-    ...steps[stepId],
+  const job = emrData.find((item) => item.JobID === jobId) || {};
+  const steps = job.Steps || {};
+
+  const stepRows = Object.values(steps).map((step) => ({
+    id: `${jobId}-${step.ID}`, // Combine JobID and StepID for a unique ID
+    ...step,
   }));
+  
+  
 
   const columns = [
     {
@@ -51,6 +55,7 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
         pageSize={stepRows.length}
         autoHeight
         scrollbarSize={20}
+        style={{ backgroundColor: 'white' }}
       />
     </div>
   );
@@ -58,8 +63,9 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
 
 DetailedStepsInfo.propTypes = {
   jobId: PropTypes.string.isRequired,
-  emrData: PropTypes.object.isRequired,
-  onBackClick: PropTypes.func.isRequired, // Add onBackClick to propTypes
+  emrData: PropTypes.arrayOf(PropTypes.object).isRequired, // Change to arrayOf
+  onBackClick: PropTypes.func.isRequired,
 };
+
 
 export default DetailedStepsInfo;

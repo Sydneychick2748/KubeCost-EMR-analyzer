@@ -3,9 +3,9 @@
 // emrData.js
 
   // emrData.js
-export const EMR_DATA =
+export const EMR_DATA =[
   {
-  "j-2CDBZ8DU5A1O0": {
+  "JobID":"j-2CDBZ8DU5A1O0",
     "Window": {
       "start": "2023-12-21T00:00:00Z",
       "end": "2023-12-22T00:00:00Z"
@@ -25,7 +25,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-2CDBZ8DU5A1O0",
+   
     "InstanceID": "",
     "PodName": "",
     "InstanceType": "",
@@ -41,7 +41,8 @@ export const EMR_DATA =
     "MemoryUsed": 1024,
     "Runtime": 180
   },
-  "j-ABCDEF123456": {
+  {
+  "JobID":"j-ABCDEF123456",
     "Window": {
       "start": "2023-12-22T00:00:00Z",
       "end": "2023-12-23T00:00:00Z"
@@ -61,7 +62,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-ABCDEF123456",
+    
     "InstanceID": "i-789012345678",
     "PodName": "",
     "InstanceType": "t2.micro",
@@ -77,7 +78,8 @@ export const EMR_DATA =
     "MemoryAllocated": 1024,
     "Runtime": 120
   },
-  "j-XYZ987654321": {
+  {
+  "JobID":"j-XYZ987654321",
     "Window": {
       "start": "2023-12-23T00:00:00Z",
       "end": "2023-12-24T00:00:00Z"
@@ -97,7 +99,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-XYZ987654321",
+   
     "InstanceID": "i-012345678901",
     "PodName": "",
     "InstanceType": "m5.large",
@@ -111,8 +113,8 @@ export const EMR_DATA =
     "MemoryUsed": 2048,
     "Runtime": 180
   },
- 
-  "j-456DEF789012": {
+ {
+  "JobID":"j-456DEF789012",
     "Window": {
       "start": "2023-12-24T00:00:00Z",
       "end": "2023-12-25T00:00:00Z"
@@ -132,7 +134,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-456DEF789012",
+    
     "InstanceID": "i-012345678902",
     "PodName": "",
     "InstanceType": "c5.xlarge",
@@ -146,7 +148,8 @@ export const EMR_DATA =
     "MemoryUsed": 4096,
     "Runtime": 240
   },
-  "j-789GHI012345": {
+{
+  "JobID":"j-789GHI012345",
     "Window": {
       "start": "2023-12-25T00:00:00Z",
       "end": "2023-12-26T00:00:00Z"
@@ -166,7 +169,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-789GHI012345",
+    
     "InstanceID": "i-012345678903",
     "PodName": "",
     "InstanceType": "r4.2xlarge",
@@ -180,7 +183,8 @@ export const EMR_DATA =
     "MemoryUsed": 3072,
     "Runtime": 150
   },
-  "j-101112JKL345": {
+  {
+  "JobID":"j-101112JKL345",
     "Window": {
       "start": "2023-12-26T00:00:00Z",
       "end": "2023-12-27T00:00:00Z"
@@ -200,7 +204,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-101112JKL345",
+    
     "InstanceID": "i-012345678904",
     "PodName": "",
     "InstanceType": "m5.large",
@@ -214,7 +218,8 @@ export const EMR_DATA =
     "MemoryUsed": 1024,
     "Runtime": 120
   },
-  "j-MNOPQR678910": {
+  {
+    "JobID":"j-MNOPQR678910",
     "Window": {
       "start": "2023-12-27T00:00:00Z",
       "end": "2023-12-28T00:00:00Z"
@@ -234,7 +239,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-MNOPQR678910",
+    
     "InstanceID": "i-012345678905",
     "PodName": "",
     "InstanceType": "t3.small",
@@ -248,7 +253,8 @@ export const EMR_DATA =
     "MemoryUsed": 512,
     "Runtime": 60
   },
-  "j-STUVWX911213": {
+{
+  "JobID":"j-STUVWX911213",
     "Window": {
       "start": "2023-12-28T00:00:00Z",
       "end": "2023-12-29T00:00:00Z"
@@ -268,7 +274,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-STUVWX911213",
+    
     "InstanceID": "i-012345678906",
     "PodName": "",
     "InstanceType": "c4.large",
@@ -282,7 +288,8 @@ export const EMR_DATA =
     "MemoryUsed": 2048,
     "Runtime": 180
   },
-  "j-YZABCD121314": {
+{
+  "JobID":"j-YZABCD121314",
     "Window": {
       "start": "2023-12-29T00:00:00Z",
       "end": "2023-12-30T00:00:00Z"
@@ -302,7 +309,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-YZABCD121314",
+    
     "InstanceID": "i-012345678907",
     "PodName": "",
     "InstanceType": "m5.xlarge",
@@ -316,7 +323,8 @@ export const EMR_DATA =
     "MemoryUsed": 4096,
     "Runtime": 240
   },
-  "j-EFGHIJ141516": {
+{
+  "JobID":"j-EFGHIJ141516",
     "Window": {
       "start": "2023-12-30T00:00:00Z",
       "end": "2023-12-31T00:00:00Z"
@@ -336,7 +344,7 @@ export const EMR_DATA =
       }
     },
     "AccountID": "297945954695",
-    "JobID": "j-EFGHIJ141516",
+    
     "InstanceID": "i-012345678908",
     "PodName": "",
     "InstanceType": "r5.large",
@@ -350,4 +358,5 @@ export const EMR_DATA =
     "MemoryUsed": 3072,
     "Runtime": 150
   }
-};
+
+];

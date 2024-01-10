@@ -12,7 +12,7 @@ const App = () => {
 
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}></div>
+     <div style={{ backgroundColor: 'white', height: '400px', width: '100%' }} className="emr-table-container"></div>
          <TimeCostChart emrData={EMR_DATA } />  
           <EMRTable emrData={EMR_DATA } />
           {/* <ChartAndTableContainer emrData={EMR_DATA} /> */}

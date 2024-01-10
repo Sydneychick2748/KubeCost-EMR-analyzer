@@ -1,6 +1,5 @@
 // App.jsx
-
-
+import "../App.css"
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
@@ -9,27 +8,41 @@ import DetailedStepsInfo from "./DetailedStepsInfo";
 const EMRTable = ({ emrData }) => {
   const [jobIdColor, setJobIdColor] = useState({});
 
-  const [selectedJobId, setSelectedJobId] = useState(null); // State to track selected jobId
+  const [selectedJobId, setSelectedJobId] = useState(null);
 
   useEffect(() => {
-    // Update color for Job IDs once on mount or when selectedJobId changes
-    const colors = Object.keys(emrData).reduce((colors, jobID) => {
+    const colors = emrData.reduce((colorMap, item) => {
       return {
-        ...colors,
-        [jobID]: jobID === selectedJobId ? "#FF5733" : "#28b359", // Highlight selected job ID
+        ...colorMap,
+        [item.JobID]: item.JobID === selectedJobId ? "#FF5733" : "#28b359", // Highlight selected job ID
       };
     }, {});
     setJobIdColor(colors);
   }, [emrData, selectedJobId]);
 
+  console.log("EMRTable - emrData:", emrData); // Log emrData to see its structure
+
+  const rows = emrData.map((jobDetails, index) => {
+    console.log("EMRTable - jobDetails:", jobDetails); // Log jobDetails to see individual job details
+
+    return {
+      id: `${jobDetails.JobID}`, // Assuming JobID is unique for each job
+      index, // Include the index for internal use
+      ...jobDetails,
+      "Tags.team":
+        jobDetails.Tags && jobDetails.Tags.team ? jobDetails.Tags.team : "",
+    };
+  });
+
+  console.log("EMRTable - rows:", rows); // Log the generated rows
+
   const handleJobIdClick = (jobId) => {
     setSelectedJobId(jobId); // Update selectedJobId when a row is clicked
   };
-  
+
   const handleBackClick = () => {
     setSelectedJobId(null); // Set selectedJobId to null to indicate no job ID is selected
   };
-
 
   const columns = [
     {
@@ -49,6 +62,7 @@ const EMRTable = ({ emrData }) => {
       field: "AccountID",
       headerName: "Account ID",
       width: 150,
+      valueGetter: (params) => params.row.AccountID,
       description:
         "Account ID represents the unique identifier for the account associated with the job",
     },
@@ -56,6 +70,7 @@ const EMRTable = ({ emrData }) => {
       field: "InstanceID",
       headerName: "Instance ID",
       width: 150,
+      valueGetter: (params) => params.row.InstanceID,
       description:
         "Instance ID represents the unique identifier for the instance used in the job",
     },
@@ -64,12 +79,14 @@ const EMRTable = ({ emrData }) => {
       field: "Tags.team",
       headerName: "Team",
       width: 120,
+      valueGetter: (params) => params.row["Tags.team"] || "", // Ensure a default value if undefined
       description: "Team is the team associated with the job",
     },
     {
       field: "InstanceType",
       headerName: "Instance Type",
       width: 150,
+      valueGetter: (params) => params.row.InstanceType,
       description:
         "Instance Type represents the type of virtual machine or instance used for the job",
     }, // Assuming 'team' is a p
@@ -78,6 +95,7 @@ const EMRTable = ({ emrData }) => {
       headerName: "Adjustment",
       type: "number",
       width: 120,
+      valueGetter: (params) => params.row.Adjustment,
       description: "Adjustment is a numeric value representing some adjustment",
     },
     {
@@ -85,7 +103,11 @@ const EMRTable = ({ emrData }) => {
       headerName: "Cost",
       type: "number",
       width: 120,
-      valueGetter: (params) => `$${params.row.Cost.toFixed(2)}`, // Add a dollar sign and format the cost
+      valueGetter: (params) => {
+        const cost = params.row.Cost || 0; // Default to 0 if Cost is undefined or null
+        return `$${cost.toFixed(2)}`;
+      },
+
       description:
         "Cost represents the monetary expense associated with the job. Reflects overall resource consumption, usage, including compute instances, storage, and related services.",
     },
@@ -95,22 +117,16 @@ const EMRTable = ({ emrData }) => {
       headerName: "Idle Pct",
       type: "number",
       width: 150,
+      valueGetter: (params) => params.row.IdlePct,
       description: "Idle Pct is a numeric value representing idle percentage",
     },
 
-    {
-      field: "MemoryAllocated",
-      headerName: "Memory Allocated",
-      type: "number",
-      width: 120,
-      description:
-        "Memory Allocated is a numeric value representing allocated memory",
-    },
     {
       field: "MemoryUsed",
       headerName: "Memory Used",
       type: "number",
       width: 120,
+      valueGetter: (params) => params.row.MemoryUsed,
       description: "Memory Used is a numeric value representing used memory",
     },
 
@@ -119,43 +135,37 @@ const EMRTable = ({ emrData }) => {
       headerName: "Runtime",
       type: "number",
       width: 100,
+      valueGetter: (params) => params.row.Runtime,
       description:
         "Runtime is a numeric value representing the duration of the job",
     },
   ];
 
-  // Flatten the nested structure and generate rows
-  const rows = Object.keys(emrData).map((jobID) => ({
-    id: jobID,
-    ...emrData[jobID],
-    "Tags.team": emrData[jobID].Tags?.team, // Flatten 'Tags' structure
-  }));
+  // const stepRows = Object.keys(steps).map((stepId) => ({
+  //   id: `${jobId}-${stepId}`, // Combine JobID and StepID for a unique ID
+  //   ...steps[stepId],
+  // }));
 
   return (
     <div style={{ height: 400, width: "100%" }} className="emr-table-container">
       {selectedJobId ? (
         // Render the detailed steps page if a job ID is selected
-        <DetailedStepsInfo 
-        jobId={selectedJobId}
-        emrData={emrData}
-        onBackClick={handleBackClick} // Pass the back click hand
-         />
+        <DetailedStepsInfo
+          jobId={selectedJobId}
+          emrData={emrData}
+          onBackClick={handleBackClick} // Pass the back click hand
+        />
       ) : (
         // Render the main table if no job ID is selected
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={rows.length}
+          pageSize={25} // Adjust this number based on your preference
           autoHeight
           scrollbarSize={20}
-          onRowClick={(params, event) => {
-            if (
-              event.target
-                .closest(".MuiDataGrid-cell")
-                ?.getAttribute("aria-colindex") === "1"
-            ) {
-              handleJobIdClick(params.id);
-            }
+          style={{ backgroundColor: 'white' }}
+          onRowClick={(params) => {
+            handleJobIdClick(params.id);
           }}
         />
       )}
@@ -164,10 +174,8 @@ const EMRTable = ({ emrData }) => {
 };
 
 EMRTable.propTypes = {
-  emrData: PropTypes.object.isRequired,
+  emrData: PropTypes.array.isRequired,
+  // selectedJobId: PropTypes.string,
 };
 
 export default EMRTable;
-
-
-
