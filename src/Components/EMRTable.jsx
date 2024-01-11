@@ -20,21 +20,45 @@ const EMRTable = ({ emrData }) => {
     setJobIdColor(colors);
   }, [emrData, selectedJobId]);
 
-  console.log("EMRTable - emrData:", emrData); // Log emrData to see its structure
+  
 
-  const rows = emrData.map((jobDetails, index) => {
-    console.log("EMRTable - jobDetails:", jobDetails); // Log jobDetails to see individual job details
-
-    return {
-      id: `${jobDetails.JobID}`, // Assuming JobID is unique for each job
-      index, // Include the index for internal use
+  //this is what i have for the data that was given 
+  // const rows = emrData.map((item) => {
+  //   const jobId = Object.keys(item)[0]; // Extract JobID from the object
+  //   console.log('JobID:', jobId);
+  
+  //   const jobDetails = item[jobId];
+  //   console.log('Original Job Details:', jobDetails);
+  
+  //   // You can directly use jobId as the unique ID
+  //   const row = {
+  //     id: jobId,
+  //     ...jobDetails,  // Include other job details
+  //   };
+  
+  //   console.log('Row:', row);
+  //   return row;
+  // });
+  
+  //this works for the changed data
+  const rows = Object.entries(emrData).map(([jobId, jobDetails]) => {
+   
+    // Map each jobID to a unique ID
+    const uniqueId = `${jobId}-unique`; // Modify this according to your requirements
+  
+    // Create a row object with the unique ID and other job details
+    const row = {
+      id: uniqueId,
       ...jobDetails,
-      "Tags.team":
-        jobDetails.Tags && jobDetails.Tags.team ? jobDetails.Tags.team : "",
     };
+  
+    return row;
   });
 
-  console.log("EMRTable - rows:", rows); // Log the generated rows
+  
+  
+
+  //  console.log("EMRTable - rows:", rows); 
 
   const handleJobIdClick = (jobId) => {
     setSelectedJobId(jobId); // Update selectedJobId when a row is clicked
@@ -79,7 +103,7 @@ const EMRTable = ({ emrData }) => {
       field: "Tags.team",
       headerName: "Team",
       width: 120,
-      valueGetter: (params) => params.row["Tags.team"] || "", // Ensure a default value if undefined
+      valueGetter: (params) => params.row.Tags?.team || "", // Use optional chaining
       description: "Team is the team associated with the job",
     },
     {
@@ -167,6 +191,7 @@ const EMRTable = ({ emrData }) => {
           onRowClick={(params) => {
             handleJobIdClick(params.id);
           }}
+          getRowId={(row) => row.JobID} // Use JobID as the custom id property
         />
       )}
     </div>
