@@ -1,72 +1,30 @@
 // App.jsx
-import "../App.css"
-import { useState, useEffect } from "react";
+import "../App.css";
+import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import DetailedStepsInfo from "./DetailedStepsInfo";
+import TimeCostChart from "./TimeCostChart";
 
 const EMRTable = ({ emrData }) => {
-  const [jobIdColor, setJobIdColor] = useState({});
-
   const [selectedJobId, setSelectedJobId] = useState(null);
 
-  useEffect(() => {
-    const colors = emrData.reduce((colorMap, item) => {
-      return {
-        ...colorMap,
-        [item.JobID]: item.JobID === selectedJobId ? "#FF5733" : "#28b359", // Highlight selected job ID
-      };
-    }, {});
-    setJobIdColor(colors);
-  }, [emrData, selectedJobId]);
+  const emrDataArr = Object.entries(emrData).map((arr) => ({
+    ...arr[1],
+    id: arr[0],
+  }));
 
-  
-
-  //this is what i have for the data that was given 
-  // const rows = emrData.map((item) => {
-  //   const jobId = Object.keys(item)[0]; // Extract JobID from the object
-  //   console.log('JobID:', jobId);
-  
-  //   const jobDetails = item[jobId];
-  //   console.log('Original Job Details:', jobDetails);
-  
-  //   // You can directly use jobId as the unique ID
-  //   const row = {
-  //     id: jobId,
-  //     ...jobDetails,  // Include other job details
-  //   };
-  
-  //   console.log('Row:', row);
-  //   return row;
-  // });
-  
-  //this works for the changed data
-  const rows = Object.entries(emrData).map(([jobId, jobDetails]) => {
-   
-    // Map each jobID to a unique ID
-    const uniqueId = `${jobId}-unique`; // Modify this according to your requirements
-  
-    // Create a row object with the unique ID and other job details
-    const row = {
-      id: uniqueId,
-      ...jobDetails,
-    };
-  
-    return row;
-  });
-
-  
-  
-
-  //  console.log("EMRTable - rows:", rows); 
+  console.log(emrDataArr, "emrDataArr");
 
   const handleJobIdClick = (jobId) => {
-    setSelectedJobId(jobId); // Update selectedJobId when a row is clicked
+    setSelectedJobId(jobId);
   };
 
   const handleBackClick = () => {
-    setSelectedJobId(null); // Set selectedJobId to null to indicate no job ID is selected
+    setSelectedJobId(null);
   };
+
+  
 
   const columns = [
     {
@@ -74,11 +32,10 @@ const EMRTable = ({ emrData }) => {
       headerName: "Job ID",
       width: 150,
       renderCell: (params) => (
-        <span style={{ color: jobIdColor[params.value] || "#28b359" }}>
+        <span style={{ color: params.value === selectedJobId ? "#FF5733" : "#28b359" }}>
           {params.value}
         </span>
       ),
-
       description: "Job ID is a unique identifier for each job",
     },
 
@@ -165,41 +122,44 @@ const EMRTable = ({ emrData }) => {
     },
   ];
 
-  // const stepRows = Object.keys(steps).map((stepId) => ({
-  //   id: `${jobId}-${stepId}`, // Combine JobID and StepID for a unique ID
-  //   ...steps[stepId],
-  // }));
+  
 
   return (
-    <div style={{ height: 400, width: "100%" }} className="emr-table-container">
+    <>
+      <TimeCostChart emrData={emrDataArr } />  
+    <div style={{ height: "100%", width: "100%" }} className="emr-table-container">
+    {/* <TimeCostChart emrData={emrDataArr } />   */}
       {selectedJobId ? (
         // Render the detailed steps page if a job ID is selected
         <DetailedStepsInfo
           jobId={selectedJobId}
-          emrData={emrData}
+          emrData={emrDataArr}
           onBackClick={handleBackClick} // Pass the back click hand
         />
       ) : (
         // Render the main table if no job ID is selected
         <DataGrid
-          rows={rows}
+          rows={emrDataArr}
           columns={columns}
           pageSize={25} // Adjust this number based on your preference
           autoHeight
           scrollbarSize={20}
-          style={{ backgroundColor: 'white' }}
+          style={{ backgroundColor: "white" }}
           onRowClick={(params) => {
             handleJobIdClick(params.id);
           }}
-          getRowId={(row) => row.JobID} // Use JobID as the custom id property
         />
       )}
     </div>
+    </>
   );
 };
 
 EMRTable.propTypes = {
-  emrData: PropTypes.array.isRequired,
+  emrData: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+  ]).isRequired,
   // selectedJobId: PropTypes.string,
 };
 

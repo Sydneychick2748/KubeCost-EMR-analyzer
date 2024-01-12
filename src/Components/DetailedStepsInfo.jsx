@@ -4,17 +4,14 @@ import PropTypes from "prop-types";
 import { DataGrid } from "@mui/x-data-grid";
 import "../App.css";
 
-
 const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
   const job = emrData.find((item) => item.JobID === jobId) || {};
-  const steps = job.Steps || {};
+  const steps = Object.values(job.Steps || {});
 
-  const stepRows = Object.values(steps).map((step) => ({
+  const stepRows = steps.map((step) => ({
     id: `${jobId}-${step.ID}`, // Combine JobID and StepID for a unique ID
     ...step,
   }));
-  
-  
 
   const columns = [
     {
@@ -44,7 +41,7 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
   ];
 
   return (
-    <div style={{ height: 400, width: "100%" }} className="emr-table-container">
+    <div style={{ height: "100%", width: "100%" }} className="emr-table-container">
       <h3 className="your-h3-class" onClick={() => onBackClick()}>
         Steps Information for Job ID: <span className="job-id">{jobId}</span>
       </h3>
@@ -55,7 +52,7 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
         pageSize={stepRows.length}
         autoHeight
         scrollbarSize={20}
-        style={{ backgroundColor: 'white' }}
+        style={{ backgroundColor: "white" }}
       />
     </div>
   );
@@ -66,6 +63,5 @@ DetailedStepsInfo.propTypes = {
   emrData: PropTypes.arrayOf(PropTypes.object).isRequired, // Change to arrayOf
   onBackClick: PropTypes.func.isRequired,
 };
-
 
 export default DetailedStepsInfo;
