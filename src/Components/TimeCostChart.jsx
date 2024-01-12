@@ -28,7 +28,7 @@ const TimeCostChart = ({ emrData }) => {
     // If endDateTime is falsy, return null or an empty object, depending on your preference.
     return null;
   });
-debugger
+// debugger
   // Tick formatter function
   const tooltipFormatter = (value) => {
     const startDateTime = startDateTimeMap[value] || { date: "", time: "" };
@@ -56,8 +56,8 @@ debugger
       />
 
       {/* i do not know how to show the return statment in this tooltip and colaborate the cost in it as well */}
-       <Tooltip formatter={tooltipFormatter} /> 
-      <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
+        {/* <Tooltip formatter={tooltipFormatter} />   */}
+       <Tooltip formatter={(value) => `$${value.toFixed(2)}`} /> 
       {/* <Legend /> */}
       <Bar dataKey="Cost" name="Cost" fill="#28B359" />
     </BarChart>
