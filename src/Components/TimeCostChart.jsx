@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip,CartesianGrid  } from "recharts";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
 
@@ -12,7 +12,7 @@ const TimeCostChart = ({ emrData }) => {
         time: format(new Date(startDateTime), "h:mm a"),
       };
     }
-    // If startDateTime is falsy, return null or an empty object, depending on your preference.
+
     return null;
   });
 
@@ -25,16 +25,64 @@ const TimeCostChart = ({ emrData }) => {
         time: format(new Date(endDateTime), "h:mm a"),
       };
     }
-    // If endDateTime is falsy, return null or an empty object, depending on your preference.
+
     return null;
   });
-// debugger
-  // Tick formatter function
-  const tooltipFormatter = (value) => {
-    const startDateTime = startDateTimeMap[value] || { date: "", time: "" };
-    console.log(startDateTime, "startDateTime")
-    const endDateTime = endDateTimeMap[value] || { date: "", time: "" };
-    return `${startDateTime.date}, ${startDateTime.time} to ${endDateTime.date}, ${endDateTime.time}`;
+
+  const CustomTooltip = ({ payload, active }) => {
+    console.log(payload, "props");
+    if (payload && payload[0] && payload[0].payload) {
+      const { id, Cost } = payload[0].payload;
+
+      const currItem = payload[0].payload;
+
+      const startTimeCurrent = startDateTimeMap.find((item) => {
+        return item.id === currItem.id;
+      });
+
+      const endTimeCurrent = endDateTimeMap.find((item) => {
+        return item.id === currItem.id;
+      });
+
+      if (active && payload && payload.length) {
+        return (
+          <div
+            className="custom-tooltip-container"
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              padding: "10px",
+              borderRadius: "5px",
+              boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <p
+              style={{ fontSize: "12px", color: "grey" }}
+            >{`${startTimeCurrent.date}, ${startTimeCurrent.time} to ${endTimeCurrent.date}, ${endTimeCurrent.time}`}</p>
+            <p style={{ fontSize: "14px" }}>{`JobID: ${id}`}</p>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor: payload[0].fill,
+                  marginRight: "5px",
+                }}
+              ></div>
+              <p style={{ fontSize: "14px" }}>{`Cost: $${Cost.toFixed(2)}`}</p>
+            </div>
+          </div>
+        );
+      }
+    }
+
+    return null;
+  };
+
+  CustomTooltip.propTypes = {
+    payload: PropTypes.array,
+    active: PropTypes.bool, // Add this line to include the 'active' prop
   };
 
   return (
@@ -55,20 +103,44 @@ const TimeCostChart = ({ emrData }) => {
         domain={["dataMin - 1", "dataMax + 1"]}
       />
 
-      {/* i do not know how to show the return statment in this tooltip and colaborate the cost in it as well */}
-        {/* <Tooltip formatter={tooltipFormatter} />   */}
-       <Tooltip formatter={(value) => `$${value.toFixed(2)}`} /> 
-      {/* <Legend /> */}
-      <Bar dataKey="Cost" name="Cost" fill="#28B359" />
+     
+      <Tooltip content={<CustomTooltip />} />
+      <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
+      {/* <CartesianGrid horizontal stroke="#ccc" strokeDasharray="3 3" /> */}
+      <Bar dataKey="Cost" name="cost" fill="#28B359" />
     </BarChart>
   );
 };
 
 TimeCostChart.propTypes = {
   emrData: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        Window: PropTypes.shape({
+          start: PropTypes.string,
+          end: PropTypes.string,
+        }),
+        // Add other expected properties in emrData item
+      })
+    ),
     PropTypes.object,
   ]).isRequired,
+  payload: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      Window: PropTypes.shape({
+        start: PropTypes.string,
+        end: PropTypes.string,
+      }),
+      // Add other expected properties in payload item
+      payload: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+
+        // Add other expected properties in payload.payload item
+      }),
+    })
+  ),
 };
 
 export default TimeCostChart;

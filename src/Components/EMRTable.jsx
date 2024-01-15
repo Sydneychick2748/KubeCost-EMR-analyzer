@@ -24,15 +24,17 @@ const EMRTable = ({ emrData }) => {
     setSelectedJobId(null);
   };
 
-  
-
   const columns = [
     {
       field: "JobID",
       headerName: "Job ID",
       width: 150,
       renderCell: (params) => (
-        <span style={{ color: params.value === selectedJobId ? "#FF5733" : "#28b359" }}>
+        <span
+          style={{
+            color: params.value === selectedJobId ? "#FF5733" : "#28b359",
+          }}
+        >
           {params.value}
         </span>
       ),
@@ -122,35 +124,36 @@ const EMRTable = ({ emrData }) => {
     },
   ];
 
-  
-
   return (
     <>
-      <TimeCostChart emrData={emrDataArr } />  
-    <div style={{ height: "100%", width: "100%" }} className="emr-table-container">
-    {/* <TimeCostChart emrData={emrDataArr } />   */}
-      {selectedJobId ? (
-        // Render the detailed steps page if a job ID is selected
-        <DetailedStepsInfo
-          jobId={selectedJobId}
-          emrData={emrDataArr}
-          onBackClick={handleBackClick} // Pass the back click hand
-        />
-      ) : (
-        // Render the main table if no job ID is selected
-        <DataGrid
-          rows={emrDataArr}
-          columns={columns}
-          pageSize={25} // Adjust this number based on your preference
-          autoHeight
-          scrollbarSize={20}
-          style={{ backgroundColor: "white" }}
-          onRowClick={(params) => {
-            handleJobIdClick(params.id);
-          }}
-        />
-      )}
-    </div>
+      <TimeCostChart emrData={emrDataArr} />
+      <div
+        style={{ height: "100%", width: "100%" }}
+        className="emr-table-container"
+      >
+        {/* <TimeCostChart emrData={emrDataArr } />   */}
+        {selectedJobId ? (
+          // Render the detailed steps page if a job ID is selected
+          <DetailedStepsInfo
+            jobId={selectedJobId}
+            emrData={emrDataArr}
+            onBackClick={handleBackClick} // Pass the back click hand
+          />
+        ) : (
+          // Render the main table if no job ID is selected
+          <DataGrid
+            rows={emrDataArr}
+            columns={columns}
+            pageSize={25} // Adjust this number based on your preference
+            autoHeight
+            scrollbarSize={20}
+            style={{ backgroundColor: "white" }}
+            onRowClick={(params) => {
+              handleJobIdClick(params.id);
+            }}
+          />
+        )}
+      </div>
     </>
   );
 };
