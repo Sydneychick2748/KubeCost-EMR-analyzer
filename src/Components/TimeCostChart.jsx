@@ -1,5 +1,5 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { format } from "date-fns";
 
 const TimeCostChart = ({ emrData }) => {
@@ -80,10 +80,10 @@ const TimeCostChart = ({ emrData }) => {
     return null;
   };
 
-  CustomTooltip.propTypes = {
-    payload: PropTypes.array,
-    active: PropTypes.bool,
-  };
+  // CustomTooltip.propTypes = {
+  //   payload: PropTypes.array,
+  //   active: PropTypes.bool,
+  // };
 
   return (
     <BarChart width={1400} height={400} data={emrData}>
@@ -111,32 +111,32 @@ const TimeCostChart = ({ emrData }) => {
   );
 };
 
-TimeCostChart.propTypes = {
-  emrData: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        Window: PropTypes.shape({
-          start: PropTypes.string,
-          end: PropTypes.string,
-        }),
-      })
-    ),
-    PropTypes.object,
-  ]).isRequired,
-  payload: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      Window: PropTypes.shape({
-        start: PropTypes.string,
-        end: PropTypes.string,
-      }),
+// TimeCostChart.propTypes = {
+//   emrData: PropTypes.oneOfType([
+//     PropTypes.arrayOf(
+//       PropTypes.shape({
+//         id: PropTypes.string.isRequired,
+//         Window: PropTypes.shape({
+//           start: PropTypes.string,
+//           end: PropTypes.string,
+//         }),
+//       })
+//     ),
+//     PropTypes.object,
+//   ]).isRequired,
+//   payload: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       Window: PropTypes.shape({
+//         start: PropTypes.string,
+//         end: PropTypes.string,
+//       }),
 
-      payload: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }),
-    })
-  ),
-};
+//       payload: PropTypes.shape({
+//         id: PropTypes.string.isRequired,
+//       }),
+//     })
+//   ),
+// };
 
 export default TimeCostChart;

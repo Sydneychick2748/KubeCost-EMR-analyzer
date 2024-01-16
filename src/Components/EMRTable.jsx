@@ -2,7 +2,7 @@
 import "../App.css";
 import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import DetailedStepsInfo from "./DetailedStepsInfo";
 import TimeCostChart from "./TimeCostChart";
 
@@ -156,11 +156,11 @@ const EMRTable = ({ emrData }) => {
   );
 };
 
-EMRTable.propTypes = {
-  emrData: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.object,
-  ]).isRequired,
-};
+// EMRTable.propTypes = {
+//   emrData: PropTypes.oneOfType([
+//     PropTypes.arrayOf(PropTypes.object),
+//     PropTypes.object,
+//   ]).isRequired,
+// };
 
 export default EMRTable;

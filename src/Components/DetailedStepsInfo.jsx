@@ -1,6 +1,6 @@
 // DetailedStepsInfo.jsx
 
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { DataGrid } from "@mui/x-data-grid";
 import "../App.css";
 
@@ -61,10 +61,10 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
   );
 };
 
-DetailedStepsInfo.propTypes = {
-  jobId: PropTypes.string.isRequired,
-  emrData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onBackClick: PropTypes.func.isRequired,
-};
+// DetailedStepsInfo.propTypes = {
+//   jobId: PropTypes.string.isRequired,
+//   emrData: PropTypes.arrayOf(PropTypes.object).isRequired,
+//   onBackClick: PropTypes.func.isRequired,
+// };
 
 export default DetailedStepsInfo;
