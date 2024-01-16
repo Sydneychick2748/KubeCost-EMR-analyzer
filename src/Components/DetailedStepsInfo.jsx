@@ -9,7 +9,7 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
   const steps = Object.values(job.Steps || {});
 
   const stepRows = steps.map((step) => ({
-    id: `${jobId}-${step.ID}`, // Combine JobID and StepID for a unique ID
+    id: `${jobId}-${step.ID}`,
     ...step,
   }));
 
@@ -41,7 +41,10 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
   ];
 
   return (
-    <div style={{ height: "100%", width: "100%" }} className="emr-table-container">
+    <div
+      style={{ height: "100%", width: "100%" }}
+      className="emr-table-container"
+    >
       <h3 className="your-h3-class" onClick={() => onBackClick()}>
         Steps Information for Job ID: <span className="job-id">{jobId}</span>
       </h3>
@@ -60,7 +63,7 @@ const DetailedStepsInfo = ({ jobId, emrData, onBackClick }) => {
 
 DetailedStepsInfo.propTypes = {
   jobId: PropTypes.string.isRequired,
-  emrData: PropTypes.arrayOf(PropTypes.object).isRequired, // Change to arrayOf
+  emrData: PropTypes.arrayOf(PropTypes.object).isRequired,
   onBackClick: PropTypes.func.isRequired,
 };
 

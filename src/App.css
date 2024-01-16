@@ -1,8 +1,16 @@
 
 
-body{
-  background-color: white;
+
+html {
+  font-family: 'Space Grotesk', sans-serif;
 }
+
+
+body {
+  background-color: white;
+  
+}
+
 
 
 .MuiDataGrid-root {
@@ -34,11 +42,15 @@ color : #63E892;
   color:black;
  font-weight: 500;
  font-size: 15px;
+ /* font-family: 'Space Grotesk', sans-serif; */
+
   /* Your styles for the h3 element */
 }
 
 .job-id {
   font-size: 15px;
-  color :rgb(40, 179, 89)
+  color :rgb(40, 179, 89);
+  /* font-family: 'Space Grotesk', sans-serif; */
+
   
 }

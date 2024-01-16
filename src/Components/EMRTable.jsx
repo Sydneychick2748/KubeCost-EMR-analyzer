@@ -62,7 +62,7 @@ const EMRTable = ({ emrData }) => {
       field: "Tags.team",
       headerName: "Team",
       width: 120,
-      valueGetter: (params) => params.row.Tags?.team || "", // Use optional chaining
+      valueGetter: (params) => params.row.Tags?.team || "",
       description: "Team is the team associated with the job",
     },
     {
@@ -87,7 +87,7 @@ const EMRTable = ({ emrData }) => {
       type: "number",
       width: 120,
       valueGetter: (params) => {
-        const cost = params.row.Cost || 0; // Default to 0 if Cost is undefined or null
+        const cost = params.row.Cost || 0;
         return `$${cost.toFixed(2)}`;
       },
 
@@ -131,20 +131,17 @@ const EMRTable = ({ emrData }) => {
         style={{ height: "100%", width: "100%" }}
         className="emr-table-container"
       >
-        {/* <TimeCostChart emrData={emrDataArr } />   */}
         {selectedJobId ? (
-          // Render the detailed steps page if a job ID is selected
           <DetailedStepsInfo
             jobId={selectedJobId}
             emrData={emrDataArr}
-            onBackClick={handleBackClick} // Pass the back click hand
+            onBackClick={handleBackClick}
           />
         ) : (
-          // Render the main table if no job ID is selected
           <DataGrid
             rows={emrDataArr}
             columns={columns}
-            pageSize={25} // Adjust this number based on your preference
+            pageSize={25}
             autoHeight
             scrollbarSize={20}
             style={{ backgroundColor: "white" }}
@@ -163,7 +160,6 @@ EMRTable.propTypes = {
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.object,
   ]).isRequired,
-  // selectedJobId: PropTypes.string,
 };
 
 export default EMRTable;

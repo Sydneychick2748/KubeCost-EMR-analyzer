@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip,CartesianGrid  } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
 
@@ -30,7 +30,6 @@ const TimeCostChart = ({ emrData }) => {
   });
 
   const CustomTooltip = ({ payload, active }) => {
-    console.log(payload, "props");
     if (payload && payload[0] && payload[0].payload) {
       const { id, Cost } = payload[0].payload;
 
@@ -68,6 +67,7 @@ const TimeCostChart = ({ emrData }) => {
                   height: "20px",
                   backgroundColor: payload[0].fill,
                   marginRight: "5px",
+                 
                 }}
               ></div>
               <p style={{ fontSize: "14px" }}>{`Cost: $${Cost.toFixed(2)}`}</p>
@@ -82,7 +82,7 @@ const TimeCostChart = ({ emrData }) => {
 
   CustomTooltip.propTypes = {
     payload: PropTypes.array,
-    active: PropTypes.bool, // Add this line to include the 'active' prop
+    active: PropTypes.bool,
   };
 
   return (
@@ -103,10 +103,9 @@ const TimeCostChart = ({ emrData }) => {
         domain={["dataMin - 1", "dataMax + 1"]}
       />
 
-     
       <Tooltip content={<CustomTooltip />} />
       <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
-      {/* <CartesianGrid horizontal stroke="#ccc" strokeDasharray="3 3" /> */}
+
       <Bar dataKey="Cost" name="cost" fill="#28B359" />
     </BarChart>
   );
@@ -121,7 +120,6 @@ TimeCostChart.propTypes = {
           start: PropTypes.string,
           end: PropTypes.string,
         }),
-        // Add other expected properties in emrData item
       })
     ),
     PropTypes.object,
@@ -133,11 +131,9 @@ TimeCostChart.propTypes = {
         start: PropTypes.string,
         end: PropTypes.string,
       }),
-      // Add other expected properties in payload item
+
       payload: PropTypes.shape({
         id: PropTypes.string.isRequired,
-
-        // Add other expected properties in payload.payload item
       }),
     })
   ),
