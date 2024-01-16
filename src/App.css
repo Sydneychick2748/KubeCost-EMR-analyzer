@@ -11,10 +11,17 @@ body {
   
 }
 
-
+.css-t89xny-MuiDataGrid-columnHeaderTitle {
+  
+  font-weight: bolder;
+}
 
 .MuiDataGrid-root {
   background-color: white; /* Set a consistent background color */
+}
+.MuiDataGrid-columnHeaderTitle {
+  font-weight: 700 !important;
+  font-size: 15px !important;
 }
 
 /* Style the DataGrid container */

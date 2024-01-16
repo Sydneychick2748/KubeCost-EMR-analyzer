@@ -139,6 +139,7 @@ const EMRTable = ({ emrData }) => {
           />
         ) : (
           <DataGrid
+          rowHeight={80} // Adjust the value as needed
             rows={emrDataArr}
             columns={columns}
             pageSize={25}
