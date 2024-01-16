@@ -2,12 +2,15 @@
 import "../App.css";
 import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+// import PaginationComponent from "./PaginationComponent";
+
 // import PropTypes from "prop-types";
 import DetailedStepsInfo from "./DetailedStepsInfo";
 import TimeCostChart from "./TimeCostChart";
 
 const EMRTable = ({ emrData }) => {
   const [selectedJobId, setSelectedJobId] = useState(null);
+  // const [page, setPage] = useState(1);
 
   const emrDataArr = Object.entries(emrData).map((arr) => ({
     ...arr[1],
@@ -24,15 +27,22 @@ const EMRTable = ({ emrData }) => {
     setSelectedJobId(null);
   };
 
+  // const handlePageChange = (newPage) => {
+  //   setPage(newPage);
+  // };
+
+
+
   const columns = [
     {
       field: "JobID",
       headerName: "Job ID",
-      width: 150,
+      width: 250,
       renderCell: (params) => (
         <span
           style={{
             color: params.value === selectedJobId ? "#FF5733" : "#28b359",
+            fontSize: "16px",
           }}
         >
           {params.value}
@@ -139,13 +149,21 @@ const EMRTable = ({ emrData }) => {
           />
         ) : (
           <DataGrid
-          rowHeight={80} // Adjust the value as needed
+            rowHeight={80} // Adjust the value as needed
             rows={emrDataArr}
             columns={columns}
             pageSize={25}
             autoHeight
             scrollbarSize={20}
             style={{ backgroundColor: "white" }}
+            // page={page}
+            // onPageChange={handlePageChange}
+            // pagination
+            // components={{
+            //   Pagination: (props) => (
+            //     <PaginationComponent {...props} onPageChange={handlePageChange} />
+            //   ),
+            // }}
             onRowClick={(params) => {
               handleJobIdClick(params.id);
             }}

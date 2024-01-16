@@ -17,7 +17,7 @@ body {
 }
 
 .MuiDataGrid-root {
-  background-color: white; /* Set a consistent background color */
+  background-color: white; 
 }
 .MuiDataGrid-columnHeaderTitle {
   font-weight: 700 !important;
@@ -31,12 +31,12 @@ body {
 
 /* Style the DataGrid rows */
 .MuiDataGrid-row {
-  border-bottom: 1px solid #ccc; /* Grey line between rows */
+  border-bottom: 1px solid #ccc; 
 }
 
 /* Style the DataGrid header cells */
 .MuiDataGrid-cell--header {
-  font-weight: bold; /* Bold header titles */
+  font-weight: bold; 
 }
 
 /* Style the Job ID cells with light green text */
@@ -49,15 +49,55 @@ color : #63E892;
   color:black;
  font-weight: 500;
  font-size: 15px;
- /* font-family: 'Space Grotesk', sans-serif; */
-
-  /* Your styles for the h3 element */
+ 
 }
 
 .job-id {
   font-size: 15px;
   color :rgb(40, 179, 89);
-  /* font-family: 'Space Grotesk', sans-serif; */
+  
 
   
 }
+/* Style the MUI DataGrid pagination arrows */
+
+/* 
+.MuiTablePagination-actions button {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-right: 8px;
+  position: relative; 
+} */
+
+/* .MuiTablePagination-actions button:disabled {
+  background-color: #e0e0e0;
+  color: #757575;
+  border: 1px solid #e0e0e0;
+  cursor: not-allowed;
+}
+
+
+.MuiTablePagination-actions button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+
+.MuiTablePagination-actions button::before,
+.MuiTablePagination-actions button::after {
+  content: none !important; 
+}
+
+.MuiTablePagination-actions button::before {
+  content: 'Previous' !important; 
+  margin-right: 4px; 
+}
+
+.MuiTablePagination-actions button::after {
+  content: 'Next'!important; 
+  margin-left: 4px; 
+} */

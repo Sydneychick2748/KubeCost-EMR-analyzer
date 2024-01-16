@@ -1,8 +1,34 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
 import { format } from "date-fns";
 
 const TimeCostChart = ({ emrData }) => {
+
+  const [chartDimensions, setChartDimensions] = useState({
+    width: window.innerWidth * 0.9, // Set an initial width (adjust as needed)
+    height: 400,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setChartDimensions({
+        width: window.innerWidth * 0.9, // Adjust as needed
+        height: 400,
+      });
+    };
+
+// Attach the event listener
+window.addEventListener("resize", handleResize);
+
+// Detach the event listener on component unmount
+return () => {
+  window.removeEventListener("resize", handleResize);
+};
+}, []); // Empty dependency array means this effect runs once on mount
+
+
+
   const startDateTimeMap = emrData.map((item) => {
     const startDateTime = item?.Window?.start;
     if (startDateTime) {
@@ -86,8 +112,11 @@ const TimeCostChart = ({ emrData }) => {
   // };
 
   return (
-    <BarChart width={1400} height={400} data={emrData}>
-      {/* ... (other chart components) */}
+    <BarChart
+      width={chartDimensions.width}
+      height={chartDimensions.height}
+      data={emrData}
+    >
       <XAxis
         dataKey="id"
         type="category"
