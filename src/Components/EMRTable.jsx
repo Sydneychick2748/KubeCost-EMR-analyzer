@@ -7,6 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 // import PropTypes from "prop-types";
 import DetailedStepsInfo from "./DetailedStepsInfo";
 import TimeCostChart from "./TimeCostChart";
+import KubecostLogo from '../assets/images/KubcostLogo.png';
 
 const EMRTable = ({ emrData }) => {
   const [selectedJobId, setSelectedJobId] = useState(null);
@@ -136,6 +137,14 @@ const EMRTable = ({ emrData }) => {
 
   return (
     <>
+     {/* Header Section */}
+     <header className="header">
+        <img src={KubecostLogo} alt="Kubecost Logo" className="logo" />
+        <div className="header-text">
+          
+         
+        </div>
+      </header>
       <TimeCostChart emrData={emrDataArr} />
       <div
         style={{ height: "100%", width: "100%" }}

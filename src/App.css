@@ -27,8 +27,11 @@ body {
 /* Style the DataGrid container */
 .emr-table-container {
   background-color: white;
+  height:10px;
 }
-
+header{
+  padding:10px 0px 200px 0px;
+}
 /* Style the DataGrid rows */
 .MuiDataGrid-row {
   border-bottom: 1px solid #ccc; 
